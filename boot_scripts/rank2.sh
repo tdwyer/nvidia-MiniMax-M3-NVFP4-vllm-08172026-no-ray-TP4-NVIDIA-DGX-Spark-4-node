@@ -1,0 +1,79 @@
+docker run -d \
+  --name m3_tp4 \
+  --privileged \
+  --network host \
+  --ipc host \
+  --shm-size 10gb \
+  --gpus all \
+  --cap-add IPC_LOCK \
+  --ulimit memlock=-1 \
+  --ulimit stack=67108864 \
+  --device /dev/infiniband:/dev/infiniband \
+  -v ~/.cache/huggingface:/cache/huggingface \
+  -e VLLM_NCCL_SO_PATH=/usr/local/lib/python3.12/dist-packages/nvidia/nccl/lib/libnccl.so.2 \
+  -e LD_PRELOAD=/usr/local/lib/python3.12/dist-packages/nvidia/nccl/lib/libnccl.so.2 \
+  -e NCCL_NET=IB \
+  -e NCCL_IB_DISABLE=0 \
+  -e NCCL_IB_HCA=roceP2p1s0f0 \
+  -e NCCL_SOCKET_IFNAME=enP7s7 \
+  -e GLOO_SOCKET_IFNAME=enP7s7 \
+  -e NCCL_CUMEM_ENABLE=1 \
+  -e NCCL_IGNORE_CPU_AFFINITY=1 \
+  -e VLLM_ALLOW_LONG_MAX_MODEL_LEN=1 \
+  -e VLLM_HOST_IP=192.168.101.3 \
+  -e HF_HOME=/cache/huggingface \
+  -e HF_HUB_OFFLINE=1 \
+  -e TRANSFORMERS_OFFLINE=1 \
+  -e NCCL_DEBUG=INFO \
+  -e NCCL_IB_ADDR_RANGE=192.168.101.0/24 \
+  -e NCCL_IB_MERGE_NICS=0 \
+  -e NCCL_NET_PLUGIN=none \
+  -e NCCL_IB_ADDR_FAMILY=AF_INET \
+  -e NCCL_IB_ROCE_VERSION_NUM=2 \
+  -e NCCL_NET_GDR_LEVEL=LOC \
+  -e NCCL_DEBUG_SUBSYS=INIT,NET,GRAPH,ENV \
+  -e VLLM_FLASHINFER_FORCE_TENSOR_CORES=1 \
+  -e VLLM_MAIN_CUDA_VERSION=13.0 \
+  -e VLLM_TARGET_DEVICE=cuda \
+  -e FI_TORCH_CUDA_ARCH_LIST=12.1a \
+  -e TORCH_CUDA_ARCH_LIST=12.1a \
+  -e FLASHINFER_CUDA_ARCH_LIST=12.1a \
+  -e CUTE_DSL_ARCH=sm_121a \
+  -e VLLM_MINIMAX_M3_ENABLE_TORCH_COMPILE=1 \
+  -e VLLM_USE_AOT_COMPILE=1 \
+  -e VLLM_USE_BREAKABLE_CUDAGRAPH=1 \
+  -e TORCH_SHOW_CPP_STACKTRACES=1 \
+  -e CUDA_LAUNCH_BLOCKING=0 \
+  -e SAFETENSORS_FAST_GPU=1 \
+  --entrypoint vllm \
+  vllm-custom-sm121:latest \
+  serve nvidia/MiniMax-M3-NVFP4 \
+  --revision f402882943835147f4e4738f8b1534fdf703f902 \
+  --served-model-name minimax-m3 \
+  --host 0.0.0.0 \
+  --port 8000 \
+  --attention-backend TRITON_ATTN \
+  --load-format safetensors \
+  --block-size 128 \
+  --tensor-parallel-size 4 \
+  --distributed-executor-backend mp \
+  --max-model-len 512288 \
+  --max-num-batched-tokens 16384 \
+  --max-num-seqs 6 \
+  --gpu-memory-utilization 0.80 \
+  --kv-cache-memory-bytes 42949672960 \
+  --kv-cache-dtype fp8 \
+  --enable-chunked-prefill \
+  --enable-prefix-caching \
+  --skip-mm-profiling \
+  --mm-encoder-tp-mode data \
+  --limit-mm-per-prompt '{"image":4,"video":4}' \
+  --reasoning-parser minimax_m3 \
+  --tool-call-parser minimax_m3 \
+  --enable-auto-tool-choice \
+  --trust-remote-code \
+  --nnodes 4 \
+  --node-rank 2 \
+  --master-addr 192.168.101.1 \
+  --master-port 29500 \
+  --headless
