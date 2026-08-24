@@ -14,8 +14,6 @@
     - Use a faster switch or [nccl-mesh-plugin]( https://github.com/autoscriptlabs/nccl-mesh-plugin)
 * Real world single stream ~60,000 token context about 35 tok/s and larger than 200,000 token context guessing 27 tok/s PP > 3,000 tok/s
 
-NOTE: More Info and Docker Hub link within 24hrs
-
 # Built Docker image with fastokens
 
 `docker pull dockerstudio123/vllm-4ab5e501-fastokens`
