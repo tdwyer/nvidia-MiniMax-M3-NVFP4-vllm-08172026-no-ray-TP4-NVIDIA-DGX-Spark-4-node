@@ -42,7 +42,7 @@ docker run -d \
   -e CUDA_LAUNCH_BLOCKING=0 \
   -e SAFETENSORS_FAST_GPU=1 \
   --entrypoint vllm \
-  vllm-custom-sm121:fastokens \
+  dockerstudio123/vllm-4ab5e501-fastokens \
   serve nvidia/MiniMax-M3-NVFP4 \
   --revision f402882943835147f4e4738f8b1534fdf703f902 \
   --served-model-name minimax-m3 \
