@@ -38,6 +38,7 @@ saib-llm --backend openai-compatible --base-url http://192.168.10.223:8000 --mod
 
 For MiniMax-M3-NVFP4 on DGX Spark TP4, the rule of thumb:
 
+```
 ┌────────────────┬────────────────────────────────────────────────────────────────────────────────────┐
 │ Context length │ DSpark recommendation                                                              │
 ├────────────────┼────────────────────────────────────────────────────────────────────────────────────┤
@@ -50,6 +51,7 @@ For MiniMax-M3-NVFP4 on DGX Spark TP4, the rule of thumb:
 ├────────────────┼────────────────────────────────────────────────────────────────────────────────────┤
 │ > 200K tokens  │ Definitely disable — your measurement confirms this                                │
 └────────────────┴────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 The reasoning: at long context, the marginal cost of the main-model verification step is too high
 relative to what you save from the cheap draft model.
