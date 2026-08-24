@@ -3,11 +3,9 @@ docker run -d \
   --privileged \
   --network host \
   --ipc host \
-  --shm-size 10gb \
   --gpus all \
   --cap-add IPC_LOCK \
   --ulimit memlock=-1 \
-  --ulimit stack=67108864 \
   --device /dev/infiniband:/dev/infiniband \
   -v ~/.cache/huggingface:/cache/huggingface \
   -e VLLM_NCCL_SO_PATH=/usr/local/lib/python3.12/dist-packages/nvidia/nccl/lib/libnccl.so.2 \
@@ -25,14 +23,12 @@ docker run -d \
   -e HF_HUB_OFFLINE=1 \
   -e TRANSFORMERS_OFFLINE=1 \
   -e NCCL_DEBUG=INFO \
-  -e NCCL_IB_ADDR_RANGE=192.168.101.0/24 \
+  -e NCCL_IB_ADDR_RANGE=192.168.101.0/29 \
   -e NCCL_IB_MERGE_NICS=0 \
   -e NCCL_NET_PLUGIN=none \
   -e NCCL_IB_ADDR_FAMILY=AF_INET \
   -e NCCL_IB_ROCE_VERSION_NUM=2 \
   -e NCCL_NET_GDR_LEVEL=LOC \
-  -e NCCL_DEBUG_SUBSYS=INIT,NET,GRAPH,ENV \
-  -e VLLM_FLASHINFER_FORCE_TENSOR_CORES=1 \
   -e VLLM_MAIN_CUDA_VERSION=13.0 \
   -e VLLM_TARGET_DEVICE=cuda \
   -e FI_TORCH_CUDA_ARCH_LIST=12.1a \
@@ -46,7 +42,7 @@ docker run -d \
   -e CUDA_LAUNCH_BLOCKING=0 \
   -e SAFETENSORS_FAST_GPU=1 \
   --entrypoint vllm \
-  vllm-custom-sm121:latest \
+  vllm-custom-sm121:fastokens \
   serve nvidia/MiniMax-M3-NVFP4 \
   --revision f402882943835147f4e4738f8b1534fdf703f902 \
   --served-model-name minimax-m3 \
@@ -57,11 +53,11 @@ docker run -d \
   --block-size 128 \
   --tensor-parallel-size 4 \
   --distributed-executor-backend mp \
-  --max-model-len 512288 \
-  --max-num-batched-tokens 16384 \
-  --max-num-seqs 6 \
+  --max-model-len 1048576 \
+  --max-num-batched-tokens 8192 \
+  --max-num-seqs 12 \
   --gpu-memory-utilization 0.80 \
-  --kv-cache-memory-bytes 42949672960 \
+  --kv-cache-memory-bytes 32212254720 \
   --kv-cache-dtype fp8 \
   --enable-chunked-prefill \
   --enable-prefix-caching \
@@ -72,6 +68,7 @@ docker run -d \
   --tool-call-parser minimax_m3 \
   --enable-auto-tool-choice \
   --trust-remote-code \
+  --speculative-config '{"method":"dspark","model":"nvidia/MiniMax-M3-DSpark","revision":"e82db0e1895bc4e0c339ce670b2b553899a57f59","num_speculative_tokens":8}' \
   --nnodes 4 \
   --node-rank 1 \
   --master-addr 192.168.101.1 \
