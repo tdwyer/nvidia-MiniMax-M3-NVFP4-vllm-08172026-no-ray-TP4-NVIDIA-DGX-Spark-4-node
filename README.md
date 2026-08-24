@@ -30,3 +30,12 @@ saib-llm --backend openai-compatible --base-url http://192.168.10.223:8000 --mod
 |  0   | openai-compatible | openai-compatible | minimax-m3 |   unknown   |           | none  |         | 2048 |  1   |   42.68   | 0.466  |                                                                
 +------+-------------------+-------------------+------------+-------------+-----------+-------+---------+------+------+-----------+--------+ 
 ```
+
+## Firmware and CUDA versions
+
+```
+NVIDIA-SMI 580.173.02             Driver Version: 580.173.02     CUDA Version: 13.0
+driver: mlx5_core
+version: 6.17.0-1029-nvidia
+firmware-version: 28.45.4028 (NVD0000000087)
+```
