@@ -17,7 +17,6 @@
 # Built Docker image with fastokens
 
 `docker pull dockerstudio123/vllm-4ab5e501-fastokens`
-`
 
 ## With DSpark
 
@@ -34,7 +33,12 @@ saib-llm --backend openai-compatible --base-url http://192.168.10.223:8000 --mod
 ## Firmware and CUDA versions
 
 ```
+# nvidia-smi
+
 NVIDIA-SMI 580.173.02             Driver Version: 580.173.02     CUDA Version: 13.0
+
+# ethtool -i enP2p1s0f0np0
+
 driver: mlx5_core
 version: 6.17.0-1029-nvidia
 firmware-version: 28.45.4028 (NVD0000000087)
