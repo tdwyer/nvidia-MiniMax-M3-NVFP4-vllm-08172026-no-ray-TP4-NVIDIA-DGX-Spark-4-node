@@ -1,7 +1,9 @@
 # Nvidia DGX Spark 4 node --tp 4 cluster
 
 * nvidia/MiniMax-M3-NFVP4
-  * Use: `f402882943835147f4e4738f8b1534fdf703f902` which has the thinking tag fix.
+  * New Docker Image with Thinking Tag Fix PR in it.
+    * **Now Use Nvidia Original version:** `901464083161bf8612a29ff7ad29914cd4ab4a85`
+    * Other version with chat_template.jinja think tag hack-fix: `f402882943835147f4e4738f8b1534fdf703f902`
   * It's pinned in the boot_scripts so it should just download that one.
 * nvidia/MiniMax-M3-DSpark
 * NO patches NO mod's needed
@@ -15,7 +17,11 @@
 * Without DSpark:  Real world single stream ~60,000 token context about 29 tok/s and >100,000 22 tok/s and >200,000 token context about 19 tok/s the PP is always fast > 2,000 tok/s
   * WITH DSpark: Get's really good bench. Real World is a question mark? I've found with any speculative decoder used it kind of makes the tok/s go all over the place. Sometimes I see 50 tok/s other times it's 15 tok/s So, I'm not really sure yet if it it actually better or worse yet.
 
-# Built Docker image with fastokens
+# Docker image with PR 50594 MiniMax-M3 Thinking Tag leak fix and fastokens
+
+`docker push dockerstudio123/vllm-485e15dc-pr50594-fastokens`
+
+Original Docker image without the Thinking Tag fix.
 
 `docker pull dockerstudio123/vllm-4ab5e501-fastokens`
 

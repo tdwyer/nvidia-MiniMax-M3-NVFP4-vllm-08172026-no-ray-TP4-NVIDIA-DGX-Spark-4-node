@@ -42,9 +42,9 @@ docker run -d \
   -e CUDA_LAUNCH_BLOCKING=0 \
   -e SAFETENSORS_FAST_GPU=1 \
   --entrypoint vllm \
-  dockerstudio123/vllm-4ab5e501-fastokens \
+  dockerstudio123/vllm-485e15dc-pr50594-fastokens \
   serve nvidia/MiniMax-M3-NVFP4 \
-  --revision f402882943835147f4e4738f8b1534fdf703f902 \
+  --revision 901464083161bf8612a29ff7ad29914cd4ab4a85 \
   --served-model-name minimax-m3 \
   --host 0.0.0.0 \
   --port 8000 \
