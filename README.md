@@ -19,7 +19,7 @@
 
 # Docker image with PR 50594 MiniMax-M3 Thinking Tag leak fix and fastokens
 
-`docker push dockerstudio123/vllm-485e15dc-pr50594-fastokens`
+`docker pull dockerstudio123/vllm-485e15dc-pr50594-fastokens`
 
 Original Docker image without the Thinking Tag fix.
 
